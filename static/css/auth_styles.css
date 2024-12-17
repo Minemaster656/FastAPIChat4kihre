@@ -1,0 +1,139 @@
+.container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-container {
+  background: var(--bg-color);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 20px color-mix(in srgb, var(--border-color-accent), transparent 50%);
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid var(--border-color-accent);
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--border-color);
+  justify-content: center;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  color: var(--text-color);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+  color: var(--primary-color);
+  text-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--primary-color), 0 0 15px var(--primary-color);
+  font-weight: bold;
+  border: none;
+ 
+}
+
+.tab-btn:focus {
+  outline: none;
+}
+
+.tab-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--primary-color);
+}
+
+.tab-content {
+  position: relative;
+  height: 250px;
+}
+
+.tab-pane {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.tab-pane.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.password-field {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.toggle-password:hover {
+  color: var(--primary-color);
+}
+
+.form-control {
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.form-control[type="text"].password-visible {
+  background: var(--input-bg);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.25);
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  border: none;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.password-shake {
+  animation: shake 0.2s ease-in-out;
+}
+body {
+  background: var(--bg-color);
+}

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Kihre | Вход</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://kit.fontawesome.com/f64d7746f4.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.4/purify.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/auth_styles.css" />
+    <link rel="stylesheet" href="/static/css/particles.css" />
+</head>
+  <body>
+    
+    {% include 'partials/theme_switcher.html' %}
+    {% include 'partials/particles.html' %}
+    <div class="container">
+      <div class="auth-container">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('login')">Вход</button>
+          <button class="tab-btn" onclick="switchTab('register')">Регистрация</button>
+        </div>
+
+        <div class="tab-content">
+          <div id="login" class="tab-pane active">
+            <form id="login-form">
+              <div class="form-group">
+                <input type="text" class="form-control" id="login-username" placeholder="Логин">
+              </div>
+              <div class="form-group password-field">
+                <input type="password" class="form-control" id="login-password" placeholder="Пароль">
+                <button type="button" class="toggle-password" onclick="togglePassword('login-password', this)">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Войти</button>
+            </form>
+          </div>
+
+          <div id="register" class="tab-pane">
+            <form id="register-form">
+              <div class="form-group">
+                <input type="text" class="form-control" id="register-name" placeholder="Имя">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" id="register-username" placeholder="Логин">
+              </div>
+              <div class="form-group password-field">
+                <input type="password" class="form-control" id="register-password" placeholder="Пароль">
+                <button type="button" class="toggle-password" onclick="togglePassword('register-password', this)">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      
+    </style>
+
+    <script>
+      function switchTab(tabId) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+        
+        document.querySelector(`button[onclick="switchTab('${tabId}')"]`).classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+      }
+
+      function togglePassword(inputId, button) {
+        const input = document.getElementById(inputId);
+        const icon = button.querySelector('i');
+        
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+          input.classList.add('password-visible');
+        } else {
+          input.type = 'password';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+          input.classList.remove('password-visible');
+          
+          // Добавляем анимацию тряски
+          input.classList.add('password-shake');
+          setTimeout(() => {
+            input.classList.remove('password-shake');
+          }, 200);
+        }
+      }
+
+      document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const login = document.getElementById('login-username').value;
+        const password = document.getElementById('login-password').value;
+
+        try {
+          const response = await fetch('/auth/login', {
+            method: 'POST',
+            headers: {
+              'Login': login,
+              'Password': password
+            }
+          });
+
+          const data = await response.json();
+          
+          if (response.ok) {
+            sessionStorage.setItem('JWT', data.JWT);
+            window.location.href = '/chat';
+          } else {
+            alert(data.message);
+            console.log(data.message, response);
+          }
+        } catch (error) {
+          console.error('Ошибка:', error);
+          alert('Произошла ошибка при входе');
+        }
+      });
+
+      document.getElementById('register-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('register-name').value;
+        const login = document.getElementById('register-username').value;
+        const password = document.getElementById('register-password').value;
+
+        try {
+          const response = await fetch('/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              name: name,
+              login: login,
+              password: password
+            })
+          });
+
+          const data = await response.json();
+          
+          if (response.ok) {
+            sessionStorage.setItem('JWT', data.JWT);
+            window.location.href = '/chat';
+          } else {
+            alert(data.message);
+          }
+        } catch (error) {
+          console.error('Ошибка:', error);
+          alert('Произошла ошибка при регистрации');
+        }
+      });
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="/static/js/particles.js"></script>
+</body>
+</html>

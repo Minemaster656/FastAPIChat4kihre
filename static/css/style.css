@@ -11,7 +11,9 @@
   --grid-color: rgba(0, 0, 0, 0.1);
   --bg-color-0: #dddddd;
   --text-color-accent-danger: #e74c3c;
+  --border-color-accent: #00497a;
   color: var(--text-color);
+  --primary-color: #00497a;
 }
 
 [data-theme="dark"] {
@@ -27,7 +29,9 @@
   --grid-color: rgba(255, 255, 255, 0.1);
   --bg-color-0: #4e4e4e;
   --text-color-accent-danger: #e74c3c;
+  --border-color-accent: #2980b9;
   color: var(--text-color);
+  --primary-color: #2980b9;
 }
 body {
   background-color: var(--bg-color);

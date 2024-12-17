@@ -117,6 +117,90 @@
       //const safeHTML = safeMarkdownParse(markdownInput);
       //document.getElementById('output').innerHTML = safeHTML; // Вставка очищенного HTML в элемент
     </script>
+    <script>
+      let jwt = sessionStorage.getItem("JWT");
+      
+      let fetchedJWT = false;
+      // Проверяем наличие JWT при загрузке страницы
+      window.onload = async function () {
+        ///const jwt = sessionStorage.getItem('JWT');
+
+        if (!jwt) {
+          // Если токена нет - редирект на авторизацию
+          
+          fetchedJWT = true;
+          window.location.href = "/auth";
+          return;
+        } else {
+          setTimeout(() => {
+            setInterval(refreshToken, 10 * 60 * 1000);
+          }, 1000 * 600);
+        }
+
+        try {
+          // Пробуем обновить токен
+          const response = await fetch("/auth/refresh", {
+            method: "POST",
+            headers: {
+              Authorization: jwt,
+            },
+          });
+
+          if (response.status === 401 || response.status === 400) {
+            // Если токен невалидный - редирект на авторизацию
+                
+            window.location.href = "/auth";
+            return;
+          }
+
+          if (response.ok) {
+            // Обновляем токен в sessionStorage
+            const data = await response.json();
+            sessionStorage.setItem("JWT", data.JWT);
+            jwt = data.JWT;
+            fetchedJWT = true;
+            setTimeout(() => {
+              setInterval(refreshToken, 10 * 60 * 1000);
+            }, 1000 * 600);
+          }
+        } catch (error) {
+          console.error("Ошибка при обновлении токена:", error);
+          
+          window.location.href = "/auth";
+        }
+      };
+      // Функция для обновления JWT
+      async function refreshToken() {
+        try {
+          const response = await fetch("/auth/refresh", {
+            method: "POST",
+            headers: {
+              Authorization: jwt,
+            },
+          });
+
+          if (response.status === 401) {
+            alert("Сессия истекла. Необходима повторная авторизация.");
+            window.location.href = "/auth";
+            return;
+          }
+
+          if (response.ok) {
+            const data = await response.json();
+            sessionStorage.setItem("JWT", data.JWT);
+            jwt = data.JWT;
+          }
+        } catch (error) {
+          console.error("Ошибка при обновлении токена:", error);
+          // При таймауте или другой ошибке оставляем пользователя на странице
+        }
+      }
+      function connectToChat() {
+        console.log("Connecting to chat");
+      }
+
+      // Запускаем обновление токена каждые 10 минут
+    </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script

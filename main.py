@@ -3,7 +3,9 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from typing import List
-from endpoints import get_root, get_auth, get_chat, submit_form, websocket_endpoint  # Импортируем обработчики
+from app.auth import router as auth_router
+# from endpoints import get_root, get_auth, get_chat, submit_form, websocket_endpoint  # Импортируем обработчики
+from datetime import datetime, timedelta
 
 app = FastAPI()
 
@@ -12,6 +14,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Настройка шаблонов
 templates = Jinja2Templates(directory="templates")
+app.include_router(auth_router, prefix="/auth", tags=["products"])
 
 # Список активных подключений WebSocket
 active_connections: List[WebSocket] = []
