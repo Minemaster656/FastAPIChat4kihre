@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Чат</title>
+    <script
+      src="https://kit.fontawesome.com/f64d7746f4.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.4/purify.min.js"></script>
+  </head>
+  <body>
+    {% include 'partials/theme_switcher.html' %}
+    <div class="chat-container">
+      <!-- Боковая панель с чатами -->
+      <div class="chats-sidebar">
+        <div class="chats-header">
+          <h3>Чаты</h3>
+          <button class="chats-toggle" onclick="toggleChats()">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+        <div class="chats-list">
+          <!-- Здесь будет список чатов -->
+        </div>
+      </div>
+
+      <!-- Основная область чата -->
+      <div class="chat-main">
+        <div class="chat-header">
+          <button class="chats-toggle" onclick="toggleChats()">
+            <i class="fas fa-bars"></i>
+          </button>
+          <button class="info-toggle" onclick="toggleInfo()">
+            <i class="fas fa-info-circle"></i>
+          </button>
+          <h2 class="chat-title">Название чата</h2>
+          <div id="logged-in-info">
+            <p>Вы вошли как: <span id="username">Имя пользователя</span></p>
+            <button id="logout-button">Выйти</button>
+          </div>
+        </div>
+
+        <div class="chat-messages">
+          <!-- Здесь будут сообщения -->
+        </div>
+
+        <div class="chat-input">
+          <textarea placeholder="Введите сообщение..."></textarea>
+          <button class="send-button" id="send-button">
+            <i class="fas fa-paper-plane"></i>
+            <!-- <img src="/static/assets/svg/send.svg" alt=""> -->
+          </button>
+        </div>
+      </div>
+
+      <!-- Боковая панель с информацией -->
+      <div class="info-sidebar" id="infoSidebar">
+        <div class="info-header">
+          <h3>Информация о чате</h3>
+          <button class="close-info" onclick="toggleInfo()">×</button>
+        </div>
+        <div class="chat-info">
+          <h4>Участники</h4>
+          <div class="participants-list">
+            <!-- Здесь будет список участников -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style></style>
+
+    <script>
+      function toggleInfo() {
+        const sidebar = document.getElementById("infoSidebar");
+        sidebar.classList.toggle("active");
+      }
+
+      function toggleChats() {
+        const sidebar = document.querySelector(".chats-sidebar");
+        sidebar.classList.toggle("active");
+        console.log("Toggle chats called"); // Отладочное сообщение
+      }
+      // Инициализация MarkdownIt
+      const md = window.markdownit();
+
+      // Функция для безопасного парсинга Markdown
+      function safeMarkdownParse(markdown) {
+        // Преобразование Markdown в HTML
+        const html = md.render(markdown);
+        // Очистка HTML от потенциально опасных элементов
+        return DOMPurify.sanitize(html);
+      }
+
+      // Пример использования
+      const markdownInput = `
+      # Заголовок
+      Это пример **Markdown** с [ссылкой](https://example.com).
+      `;
+
+      //const safeHTML = safeMarkdownParse(markdownInput);
+      //document.getElementById('output').innerHTML = safeHTML; // Вставка очищенного HTML в элемент
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
