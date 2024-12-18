@@ -23,16 +23,18 @@ def create_token(data, expires_in=45*60):
 def validate_token(token):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        if datetime.datetime.utcnow() > datetime.datetime.fromtimestamp(payload['exp']):
+            return "ERROR: Token has expired"
         return payload
     except jwt.ExpiredSignatureError:
-        return "Token has expired"
+        return "ERROR: Token has expired"
     except jwt.InvalidTokenError:
-        return "Invalid token"
+        return "ERROR: Invalid token"
 def refresh_token(token):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
         return create_token(payload)
     except jwt.ExpiredSignatureError:
-        return "Token has expired"
+        return "ERROR: Token has expired"
     except jwt.InvalidTokenError:
-        return "Invalid token"
+        return "ERROR: Invalid token"

@@ -25,11 +25,13 @@ class Schemes(enum.Enum):
 def schema(document, scheme):
     fields = {}
     if scheme == Schemes.message:
-        fields = {"UUID": None, "content": None, "sender": None, "timestamp": None}
+        fields = {"UUID": None, "content": None, "sender": None, "timestamp": None, "chat": None}
     if scheme == Schemes.chat:
         fields = {"UUID": None, "messages": []}
     if scheme == Schemes.user:
         fields = {"UUID": None, "login": None, "password": None, "name": None, "tag": None, "avatar": None}
+    if scheme == Schemes.chat:
+        fields = {"UUID": None, "name": None, "member_uuids": [], "isSystem": False}
     fields_check = {}
     if not document:
         document = fields

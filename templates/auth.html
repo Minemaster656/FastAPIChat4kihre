@@ -30,10 +30,10 @@
           <div id="login" class="tab-pane active">
             <form id="login-form">
               <div class="form-group">
-                <input type="text" class="form-control" id="login-username" placeholder="Логин">
+                <input type="text" class="form-control" id="login-username" placeholder="Логин" autocomplete="username">
               </div>
               <div class="form-group password-field">
-                <input type="password" class="form-control" id="login-password" placeholder="Пароль">
+                <input type="password" class="form-control" id="login-password" placeholder="Пароль" autocomplete="current-password">
                 <button type="button" class="toggle-password" onclick="togglePassword('login-password', this)">
                   <i class="fas fa-eye"></i>
                 </button>
@@ -48,10 +48,10 @@
                 <input type="text" class="form-control" id="register-name" placeholder="Имя">
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" id="register-username" placeholder="Логин">
+                <input type="text" class="form-control" id="register-username" placeholder="Логин" autocomplete="username">
               </div>
               <div class="form-group password-field">
-                <input type="password" class="form-control" id="register-password" placeholder="Пароль">
+                <input type="password" class="form-control" id="register-password" placeholder="Пароль" autocomplete="current-password">
                 <button type="button" class="toggle-password" onclick="togglePassword('register-password', this)">
                   <i class="fas fa-eye"></i>
                 </button>
@@ -66,101 +66,10 @@
     <style>
       
     </style>
-
-    <script>
-      function switchTab(tabId) {
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-        
-        document.querySelector(`button[onclick="switchTab('${tabId}')"]`).classList.add('active');
-        document.getElementById(tabId).classList.add('active');
-      }
-
-      function togglePassword(inputId, button) {
-        const input = document.getElementById(inputId);
-        const icon = button.querySelector('i');
-        
-        if (input.type === 'password') {
-          input.type = 'text';
-          icon.classList.remove('fa-eye');
-          icon.classList.add('fa-eye-slash');
-          input.classList.add('password-visible');
-        } else {
-          input.type = 'password';
-          icon.classList.remove('fa-eye-slash');
-          icon.classList.add('fa-eye');
-          input.classList.remove('password-visible');
-          
-          // Добавляем анимацию тряски
-          input.classList.add('password-shake');
-          setTimeout(() => {
-            input.classList.remove('password-shake');
-          }, 200);
-        }
-      }
-
-      document.getElementById('login-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const login = document.getElementById('login-username').value;
-        const password = document.getElementById('login-password').value;
-
-        try {
-          const response = await fetch('/auth/login', {
-            method: 'POST',
-            headers: {
-              'Login': login,
-              'Password': password
-            }
-          });
-
-          const data = await response.json();
-          
-          if (response.ok) {
-            sessionStorage.setItem('JWT', data.JWT);
-            window.location.href = '/chat';
-          } else {
-            alert(data.message);
-            console.log(data.message, response);
-          }
-        } catch (error) {
-          console.error('Ошибка:', error);
-          alert('Произошла ошибка при входе');
-        }
-      });
-
-      document.getElementById('register-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const name = document.getElementById('register-name').value;
-        const login = document.getElementById('register-username').value;
-        const password = document.getElementById('register-password').value;
-
-        try {
-          const response = await fetch('/auth/register', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              name: name,
-              login: login,
-              password: password
-            })
-          });
-
-          const data = await response.json();
-          
-          if (response.ok) {
-            sessionStorage.setItem('JWT', data.JWT);
-            window.location.href = '/chat';
-          } else {
-            alert(data.message);
-          }
-        } catch (error) {
-          console.error('Ошибка:', error);
-          alert('Произошла ошибка при регистрации');
-        }
-      });
-    </script>
+    
+    <script src="/static/js/auth_script.js"></script>
+      
+   
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

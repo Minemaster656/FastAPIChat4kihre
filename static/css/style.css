@@ -227,7 +227,7 @@ body {
   resize: none;
   background-color: var(--bg-color-0);
   color: var(--text-color);
-  
+
   &::placeholder {
     color: var(--description-color);
   }
@@ -290,6 +290,9 @@ body {
     transform: translateY(0) scale(0.9) !important;
     box-shadow: none !important;
   }
+  &:focus {
+    outline: none;
+  }
 }
 
 #send-button img {
@@ -329,35 +332,35 @@ body {
 .chats-sidebar.active {
   transform: translateX(0);
 }
-#logged-in-info{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    color: var(--text-color);
-    font-size: 1rem;
-    font-weight: 500;
-    padding: 1rem;
-    border-bottom: 1px solid var(--grid-color);
-    background-color: var(--bg-color-0);
-    border-radius: 4px;
-    width: fit-content;
+#logged-in-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 1rem;
+  border-bottom: 1px solid var(--grid-color);
+  background-color: var(--bg-color-0);
+  border-radius: 4px;
+  width: fit-content;
 }
-button{
-    background-color: var(--bg-color-0);
-    color: var(--text-color);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease,
+button {
+  background-color: var(--bg-color-0);
+  color: var(--text-color);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
     background-color 0.3s ease;
 }
-#logout-button{
-    background-color: var(--bg-color-0);
-    color: var(--text-color-accent-danger);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease,
+#logout-button {
+  background-color: var(--bg-color-0);
+  color: var(--text-color-accent-danger);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
     background-color 0.3s ease;
 }

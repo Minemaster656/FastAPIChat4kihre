@@ -17,11 +17,13 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="/static/css/particles.css" />
   </head>
   <body>
     <div class="hero-section">
       <div class="hero-content">
-        {% include 'partials/theme_switcher.html' %}
+        {% include 'partials/theme_switcher.html' %} 
+        <!-- {% include 'partials/particles.html' %} -->
         <h1 class="main-title">Я хз, это чат.</h1>
         <div class="abstract-shapes">
           <div class="shape shape-1"></div>
@@ -29,20 +31,20 @@
           <div class="shape shape-3"></div>
         </div>
         <p class="hero-description">
-          Простой и удобный чат для общения с друзьями и коллегами. 
-          Делитесь мыслями, обменивайтесь идеями и оставайтесь на связи.
+          Простой и удобный чат для общения с друзьями и коллегами. Делитесь
+          мыслями, обменивайтесь идеями и оставайтесь на связи. А ещё [шутка не
+          придумана]
         </p>
-        <button id="openChat" class="chat-button">
-          Начать общение
-        </button>
+        <button id="openChat" class="chat-button">Начать общение</button>
       </div>
     </div>
 
-    
     <script>
-      document.getElementById('openChat').addEventListener('click', function() {
-        window.location.href = '/chat';
-      });
+      document
+        .getElementById("openChat")
+        .addEventListener("click", function () {
+          window.location.href = "/chat";
+        });
     </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -61,5 +63,6 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+    <!-- <script src="/static/js/particles.js"></script> -->
   </body>
 </html>
